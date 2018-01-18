@@ -1,6 +1,6 @@
 import re, collections
 
-Token = collections.namedtuple('Token', ['type', 'value'])
+Token = collections.namedtuple('Token', ['type', 'value', 'lineNumber', 'column'])
 
 class Lexer:
 
@@ -33,11 +33,23 @@ class Lexer:
 
     def __lex(self, source_file):
         tokens = []
+
+        lineNumber = 1
+        lineStart = 0
         with open(source_file, 'r') as f:
             for mo in self.__tokenPatternObject.finditer(f.read()):
                 tokenType = mo.lastgroup
                 tokenValue =  mo.group(tokenType)
-                tokens.append(Token(tokenType, tokenValue))
+                if tokenType == 'SKIP':
+                    pass
+                elif tokenType == 'NEWLINE':
+                    lineStart = mo.end()
+                    lineNumber += 1
+                elif tokenType == 'MISMATCH':
+                    raise RuntimeError('{tokenValue!r} unexpected on line {lineNumber}')
+                else:
+                    column = mo.start() - lineStart
+                    tokens.append(Token(tokenType, tokenValue, lineNumber, column))
                 # print 1/0
             # print line
         
