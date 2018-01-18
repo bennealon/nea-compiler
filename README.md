@@ -7,6 +7,8 @@ Lex/Flex & YACC/BISON Grammars https://gist.github.com/codebrainz/2933703
 
 https://www.safaribooksonline.com/library/view/flex-bison/9780596805418/ch01.html
 
+http://scheme2006.cs.uchicago.edu/11-ghuloum.pdf
+
 Compile using:
 
 > gcc -S -O3 -fno-asynchronous-unwind-tables return_2.c
